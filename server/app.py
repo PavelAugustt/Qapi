@@ -120,15 +120,17 @@ def agent_execute(user_prompt):
     system_prompt = """
     You are Qapi, a helpful AI assistant. Your goal is to help the user manage their tasks and goals.
     You have access to a set of tools (functions) to interact with the user's data stores.
-    The available data stores are: user_goals_map, agent_context, user_context, agent_tasks, priorities, timeheap, chatlog.
+    The available data stores and their schemas are documented in the ARCH_DESIGN.MD file.
     When a user gives you an instruction, you should:
-    1. Decide which tools to use to fulfill the request.
-    2. Call the tools with the correct parameters.
-    3. Use the tool outputs to formulate your final response.
-    4. If you need to add a task with a reminder, add it to the 'timeheap' data store.
-       A timeheap entry should be a JSON object with 'description' and 'due_date' (in ISO format).
-    5. When creating tasks, always include the consequences of not completing the task in the description.
-       This is very important. The consequences should be the worst-case scenario.
+    1.  Refer to the ARCH_DESIGN.MD file to understand the data structures.
+    2.  Decide which tools to use to fulfill the request.
+    3.  Call the tools with the correct parameters, ensuring the data you provide matches the schema.
+    4.  Use the tool outputs to formulate your final response.
+    5.  If you need to add a task with a reminder, add it to the 'timeheap' data store.
+        A timeheap entry should be a JSON object with 'id', 'description', and 'due_date' (in ISO format).
+    6.  When creating tasks, always include the consequences of not completing the task in the description.
+        This is very important. The consequences should be the worst-case scenario.
+    7.  When adding to a data store, you should first read the data store to see what is already there, and then append the new data.
     """
 
     chat = model.start_chat()
@@ -166,6 +168,27 @@ def agent_execute(user_prompt):
         )
 
     return response.text
+
+@app.route('/create_daily_timeheap', methods=['POST'])
+def create_daily_timeheap():
+    """
+    Instructs the LLM to create the daily timeheap.
+    """
+    # The prompt for the agent to create the daily timeheap
+    timeheap_creation_prompt = """
+    It's the start of a new day. Please create the daily timeheap for today.
+    Review the 'user_goals_map.json' and 'priorities.json' data stores.
+    Based on the user's goals and priorities, create a list of tasks for today
+    and add them to the 'timeheap.json' data store.
+    For each task, provide a detailed description, a due date in ISO format,
+    and the worst-case consequences for not completing the task.
+    """
+    try:
+        response = agent_execute(timeheap_creation_prompt)
+        return jsonify({"response": response})
+    except Exception as e:
+        app.logger.exception("An error occurred during daily timeheap creation.")
+        return jsonify({"error": "An internal error occurred."}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

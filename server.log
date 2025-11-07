@@ -268,3 +268,67 @@ Traceback (most recent call last):
           ^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'GenerateContentResponse' object has no attribute 'function_calls'
 2025-11-06 21:36:31,048 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:36:31] "[35m[1mPOST /instruct HTTP/1.1[0m" 500 -
+2025-11-06 21:37:17,334 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:37:17,334 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:37:48,478 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:37:48] "POST /instruct HTTP/1.1" 200 -
+2025-11-06 21:45:01,334 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:45:01,334 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:45:14,338 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:45:14,338 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:46:38,705 ERROR app Thread-1 (process_request_thread) : An error occurred during daily timeheap creation.
+Traceback (most recent call last):
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\marshal\rules\message.py", line 36, in to_proto
+    return self._descriptor(**value)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\protobuf\internal\well_known_types.py", line 561, in _internal_assign
+    self.update(dictionary)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\protobuf\internal\well_known_types.py", line 601, in update
+    for key, value in dictionary.items():
+                      ^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'items'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 187, in create_daily_timeheap
+    response = agent_execute(timeheap_creation_prompt)
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 166, in agent_execute
+    response = chat.send_message(
+        [{"function_response": {"name": function_name, "response": result}}]
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\generative_models.py", line 564, in send_message
+    content = content_types.to_content(content)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\types\content_types.py", line 296, in to_content
+    return protos.Content(parts=[to_part(part) for part in content])
+                                 ~~~~~~~^^^^^^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\types\content_types.py", line 247, in to_part
+    part = _convert_dict(part)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\types\content_types.py", line 171, in _convert_dict
+    return protos.Part(part)
+           ~~~~~~~~~~~^^^^^^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\message.py", line 728, in __init__
+    pb_value = marshal.to_proto(pb_type, value)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\marshal\marshal.py", line 235, in to_proto
+    pb_value = self.get_rule(proto_type=proto_type).to_proto(value)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\marshal\rules\message.py", line 46, in to_proto
+    return self._wrapper(value)._pb
+           ~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\message.py", line 728, in __init__
+    pb_value = marshal.to_proto(pb_type, value)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\marshal\marshal.py", line 235, in to_proto
+    pb_value = self.get_rule(proto_type=proto_type).to_proto(value)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\proto\marshal\rules\struct.py", line 140, in to_proto
+    k: self._marshal.to_proto(struct_pb2.Value, v) for k, v in value.items()
+                                                               ^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'items'
+2025-11-06 21:46:38,720 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:46:38] "[35m[1mPOST /create_daily_timeheap HTTP/1.1[0m" 500 -

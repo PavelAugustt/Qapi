@@ -29,5 +29,15 @@ def instruct(prompt):
     except requests.exceptions.RequestException as e:
         click.echo(f"Error communicating with the LLM: {e}")
 
+@cli.command()
+def create_timeheap():
+    """Triggers the creation of the daily timeheap."""
+    try:
+        response = requests.post(f"{SERVER_URL}/create_daily_timeheap")
+        response.raise_for_status()
+        click.echo(response.json().get('response'))
+    except requests.exceptions.RequestException as e:
+        click.echo(f"Error creating timeheap: {e}")
+
 if __name__ == '__main__':
     cli()
