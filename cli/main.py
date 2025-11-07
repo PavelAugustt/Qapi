@@ -18,5 +18,16 @@ def healthcheck():
     except requests.exceptions.RequestException as e:
         click.echo(f"Error connecting to the server: {e}")
 
+@cli.command()
+@click.argument('prompt')
+def instruct(prompt):
+    """Sends an instruction to the Qapi LLM."""
+    try:
+        response = requests.post(f"{SERVER_URL}/instruct", json={"prompt": prompt})
+        response.raise_for_status()
+        click.echo(response.json().get('response'))
+    except requests.exceptions.RequestException as e:
+        click.echo(f"Error communicating with the LLM: {e}")
+
 if __name__ == '__main__':
     cli()
