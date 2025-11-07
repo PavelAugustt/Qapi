@@ -1,0 +1,50 @@
+2025-11-06 21:16:16,150 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:16:16,150 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:16:19,844 ERROR app Thread-1 (process_request_thread) : An error occurred while calling the Gemini API.
+Traceback (most recent call last):
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 63, in instruct_llm
+    response = model.generate_content(
+        contents=[{"role": "user", "parts": [{"text": system_prompt + "\nUser instruction: " + user_prompt}]}]
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+    ~~~~~~~~~~~~~~~~~~~^
+        exc,
+        ^^^^
+    ...<6 lines>...
+        timeout,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_unary.py", line 144, in retry_target
+    result = target()
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.NotFound: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-11-06 21:16:19,854 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:16:19] "[35m[1mPOST /instruct HTTP/1.1[0m" 500 -
