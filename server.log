@@ -54,3 +54,217 @@ google.api_core.exceptions.NotFound: 404 models/gemini-pro is not found for API 
  * Running on http://10.0.0.14:5000
 2025-11-06 21:17:58,639 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
 2025-11-06 21:18:04,662 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:18:04] "POST /instruct HTTP/1.1" 200 -
+2025-11-06 21:32:15,656 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:32:15,656 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:32:37,787 ERROR app Thread-1 (process_request_thread) : An error occurred during agent execution.
+Traceback (most recent call last):
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 108, in instruct_llm
+    response = agent_execute(user_prompt)
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 135, in agent_execute
+    response = chat.send_message(system_prompt + "\nUser instruction: " + user_prompt)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\generative_models.py", line 578, in send_message
+    response = self.model.generate_content(
+        contents=history,
+    ...<5 lines>...
+        request_options=request_options,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+    ~~~~~~~~~~~~~~~~~~~^
+        exc,
+        ^^^^
+    ...<6 lines>...
+        timeout,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\retry\retry_unary.py", line 144, in retry_target
+    result = target()
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "C:\Users\shrid\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\api_core\grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.NotFound: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-11-06 21:32:37,791 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:32:37] "[35m[1mPOST /instruct HTTP/1.1[0m" 500 -
+2025-11-06 21:33:45,355 INFO app MainThread : Listing available Gemini models:
+2025-11-06 21:33:45,595 INFO app MainThread :   - models/embedding-gecko-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,595 INFO app MainThread :   - models/gemini-2.5-pro-preview-03-25 (supported for generateContent)
+2025-11-06 21:33:45,595 INFO app MainThread :   - models/gemini-2.5-flash-preview-05-20 (supported for generateContent)
+2025-11-06 21:33:45,595 INFO app MainThread :   - models/gemini-2.5-flash (supported for generateContent)
+2025-11-06 21:33:45,595 INFO app MainThread :   - models/gemini-2.5-flash-lite-preview-06-17 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.5-pro-preview-05-06 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.5-pro-preview-06-05 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.5-pro (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-exp (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-001 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-exp-image-generation (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-lite-001 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-lite (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-preview-image-generation (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-lite-preview-02-05 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-flash-lite-preview (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-pro-exp (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-2.0-pro-exp-02-05 (supported for generateContent)
+2025-11-06 21:33:45,596 INFO app MainThread :   - models/gemini-exp-1206 (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-2.0-flash-thinking-exp-01-21 (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-2.0-flash-thinking-exp (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-2.0-flash-thinking-exp-1219 (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-2.5-flash-preview-tts (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-2.5-pro-preview-tts (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/learnlm-2.0-flash-experimental (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemma-3-1b-it (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemma-3-4b-it (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemma-3-12b-it (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemma-3-27b-it (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemma-3n-e4b-it (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemma-3n-e2b-it (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-flash-latest (supported for generateContent)
+2025-11-06 21:33:45,597 INFO app MainThread :   - models/gemini-flash-lite-latest (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-pro-latest (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-2.5-flash-lite (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-2.5-flash-image-preview (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-2.5-flash-image (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-2.5-flash-preview-09-2025 (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-2.5-flash-lite-preview-09-2025 (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-robotics-er-1.5-preview (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-2.5-computer-use-preview-10-2025 (supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/embedding-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/text-embedding-004 (NOT supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-embedding-exp-03-07 (NOT supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-embedding-exp (NOT supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/gemini-embedding-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,598 INFO app MainThread :   - models/aqa (NOT supported for generateContent)
+2025-11-06 21:33:45,599 INFO app MainThread :   - models/imagen-3.0-generate-002 (NOT supported for generateContent)
+2025-11-06 21:33:45,599 INFO app MainThread :   - models/imagen-4.0-generate-preview-06-06 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/imagen-4.0-ultra-generate-preview-06-06 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/imagen-4.0-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/imagen-4.0-ultra-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/imagen-4.0-fast-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/veo-2.0-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/veo-3.0-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/veo-3.0-fast-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/veo-3.0-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/veo-3.0-fast-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,666 INFO app MainThread :   - models/veo-3.1-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:45,667 INFO app MainThread :   - models/veo-3.1-fast-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:45,667 INFO app MainThread :   - models/gemini-2.0-flash-live-001 (NOT supported for generateContent)
+2025-11-06 21:33:45,667 INFO app MainThread :   - models/gemini-live-2.5-flash-preview (NOT supported for generateContent)
+2025-11-06 21:33:45,667 INFO app MainThread :   - models/gemini-2.5-flash-live-preview (NOT supported for generateContent)
+2025-11-06 21:33:45,667 INFO app MainThread :   - models/gemini-2.5-flash-native-audio-latest (NOT supported for generateContent)
+2025-11-06 21:33:45,667 INFO app MainThread :   - models/gemini-2.5-flash-native-audio-preview-09-2025 (NOT supported for generateContent)
+2025-11-06 21:33:45,673 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:33:45,673 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:33:58,001 INFO app MainThread : Listing available Gemini models:
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/embedding-gecko-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-pro-preview-03-25 (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-flash-preview-05-20 (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-flash (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-flash-lite-preview-06-17 (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-pro-preview-05-06 (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-pro-preview-06-05 (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.5-pro (supported for generateContent)
+2025-11-06 21:33:58,199 INFO app MainThread :   - models/gemini-2.0-flash-exp (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-001 (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-exp-image-generation (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-lite-001 (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-lite (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-preview-image-generation (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-lite-preview-02-05 (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-lite-preview (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-pro-exp (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-pro-exp-02-05 (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-exp-1206 (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-thinking-exp-01-21 (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-thinking-exp (supported for generateContent)
+2025-11-06 21:33:58,200 INFO app MainThread :   - models/gemini-2.0-flash-thinking-exp-1219 (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-2.5-flash-preview-tts (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-2.5-pro-preview-tts (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/learnlm-2.0-flash-experimental (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemma-3-1b-it (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemma-3-4b-it (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemma-3-12b-it (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemma-3-27b-it (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemma-3n-e4b-it (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemma-3n-e2b-it (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-flash-latest (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-flash-lite-latest (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-pro-latest (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-2.5-flash-lite (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-2.5-flash-image-preview (supported for generateContent)
+2025-11-06 21:33:58,201 INFO app MainThread :   - models/gemini-2.5-flash-image (supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-2.5-flash-preview-09-2025 (supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-2.5-flash-lite-preview-09-2025 (supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-robotics-er-1.5-preview (supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-2.5-computer-use-preview-10-2025 (supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/embedding-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/text-embedding-004 (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-embedding-exp-03-07 (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-embedding-exp (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/gemini-embedding-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/aqa (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/imagen-3.0-generate-002 (NOT supported for generateContent)
+2025-11-06 21:33:58,202 INFO app MainThread :   - models/imagen-4.0-generate-preview-06-06 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/imagen-4.0-ultra-generate-preview-06-06 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/imagen-4.0-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/imagen-4.0-ultra-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/imagen-4.0-fast-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-2.0-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-3.0-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-3.0-fast-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-3.0-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-3.0-fast-generate-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-3.1-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/veo-3.1-fast-generate-preview (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/gemini-2.0-flash-live-001 (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/gemini-live-2.5-flash-preview (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/gemini-2.5-flash-live-preview (NOT supported for generateContent)
+2025-11-06 21:33:58,262 INFO app MainThread :   - models/gemini-2.5-flash-native-audio-latest (NOT supported for generateContent)
+2025-11-06 21:33:58,263 INFO app MainThread :   - models/gemini-2.5-flash-native-audio-preview-09-2025 (NOT supported for generateContent)
+2025-11-06 21:33:58,269 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:33:58,269 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:35:27,513 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.14:5000
+2025-11-06 21:35:27,513 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-06 21:36:31,042 ERROR app Thread-1 (process_request_thread) : An error occurred during agent execution.
+Traceback (most recent call last):
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 108, in instruct_llm
+    response = agent_execute(user_prompt)
+  File "C:\Users\shrid\Desktop\Projects\Qapi\server\app.py", line 137, in agent_execute
+    while response.function_calls:
+          ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'GenerateContentResponse' object has no attribute 'function_calls'
+2025-11-06 21:36:31,048 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [06/Nov/2025 21:36:31] "[35m[1mPOST /instruct HTTP/1.1[0m" 500 -
