@@ -116,3 +116,36 @@ AttributeError: 'str' object has no attribute 'items'
 2025-11-08 19:02:58,566 INFO werkzeug MainThread :  * Restarting with watchdog (windowsapi)
 2025-11-08 19:02:59,771 WARNING werkzeug MainThread :  * Debugger is active!
 2025-11-08 19:02:59,774 INFO werkzeug MainThread :  * Debugger PIN: 100-528-215
+2025-11-08 19:03:06,521 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-11-08 19:03:06,522 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-08 19:03:06,528 INFO werkzeug MainThread :  * Restarting with watchdog (windowsapi)
+2025-11-08 19:03:07,693 WARNING werkzeug MainThread :  * Debugger is active!
+2025-11-08 19:03:07,696 INFO werkzeug MainThread :  * Debugger PIN: 100-528-215
+2025-11-08 19:03:24,928 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [08/Nov/2025 19:03:24] "POST /instruct HTTP/1.1" 200 -
+2025-11-08 19:04:54,144 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [08/Nov/2025 19:04:54] "POST /instruct HTTP/1.1" 200 -
+2025-11-08 19:05:07,930 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [08/Nov/2025 19:05:07] "POST /search HTTP/1.1" 200 -
+2025-11-08 19:08:50,613 INFO werkzeug Thread-1 :  * Detected change in 'C:\\Users\\shrid\\Desktop\\Projects\\Qapi\\server\\handlers.py', reloading
+2025-11-08 19:08:50,614 INFO werkzeug Thread-1 :  * Detected change in 'C:\\Users\\shrid\\Desktop\\Projects\\Qapi\\server\\handlers.py', reloading
+2025-11-08 19:08:53,649 INFO werkzeug MainThread :  * Restarting with watchdog (windowsapi)
+2025-11-08 19:08:54,851 WARNING werkzeug MainThread :  * Debugger is active!
+2025-11-08 19:08:54,856 INFO werkzeug MainThread :  * Debugger PIN: 100-528-215
+2025-11-08 19:09:23,268 INFO werkzeug Thread-1 :  * Detected change in 'C:\\Users\\shrid\\Desktop\\Projects\\Qapi\\server\\app.py', reloading
+2025-11-08 19:09:23,269 INFO werkzeug Thread-1 :  * Detected change in 'C:\\Users\\shrid\\Desktop\\Projects\\Qapi\\server\\app.py', reloading
+2025-11-08 19:09:24,141 INFO werkzeug MainThread :  * Restarting with watchdog (windowsapi)
+2025-11-08 19:09:25,299 WARNING werkzeug MainThread :  * Debugger is active!
+2025-11-08 19:09:25,302 INFO werkzeug MainThread :  * Debugger PIN: 100-528-215
+2025-11-08 19:10:57,440 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-11-08 19:10:57,440 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2025-11-08 19:10:57,445 INFO werkzeug MainThread :  * Restarting with watchdog (windowsapi)
+2025-11-08 19:10:58,596 WARNING werkzeug MainThread :  * Debugger is active!
+2025-11-08 19:10:58,599 INFO werkzeug MainThread :  * Debugger PIN: 100-528-215
+2025-11-08 19:11:27,463 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [08/Nov/2025 19:11:27] "POST /instruct HTTP/1.1" 200 -
+2025-11-08 19:11:40,224 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [08/Nov/2025 19:11:40] "POST /instruct HTTP/1.1" 200 -
+2025-11-08 19:11:51,620 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [08/Nov/2025 19:11:51] "POST /instruct HTTP/1.1" 200 -
+2025-11-08 19:12:38,994 INFO werkzeug Thread-1 :  * Detected change in 'C:\\Users\\shrid\\Desktop\\Projects\\Qapi\\server\\app.py', reloading
+2025-11-08 19:12:38,997 INFO werkzeug Thread-1 :  * Detected change in 'C:\\Users\\shrid\\Desktop\\Projects\\Qapi\\server\\app.py', reloading
+2025-11-08 19:12:42,018 INFO werkzeug MainThread :  * Restarting with watchdog (windowsapi)
+2025-11-08 19:12:43,226 WARNING werkzeug MainThread :  * Debugger is active!
+2025-11-08 19:12:43,229 INFO werkzeug MainThread :  * Debugger PIN: 100-528-215

@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 import logging
-from server.handlers import read_data, write_data, append_data, get_timestamp
+from server.handlers import read_data, write_data, append_data, get_timestamp, delete_data_entry, load_memory
 from google.generativeai import types
 
 # Load environment variables from .env file
@@ -75,12 +75,40 @@ get_timestamp_function = {
     },
 }
 
+delete_data_entry_function = {
+    "name": "delete_data_entry",
+    "description": "Deletes an entry from a list-based data store by its ID.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "store_name": {"type": "string", "description": "The name of the data store."},
+            "entry_id": {"type": "string", "description": "The ID of the entry to delete."},
+        },
+        "required": ["store_name", "entry_id"],
+    },
+}
+
+load_memory_function = {
+    "name": "load_memory",
+    "description": "Loads memory from a specified data store. If entry_id is provided, loads a specific entry. Otherwise, loads the entire store.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "store_name": {"type": "string", "description": "The name of the data store."},
+            "entry_id": {"type": "string", "description": "Optional: The ID of the entry to load."},
+        },
+        "required": ["store_name"],
+    },
+}
+
 # Create the tools object
 tools = types.Tool(function_declarations=[
     read_data_function,
     write_data_function,
     append_data_function,
     get_timestamp_function,
+    delete_data_entry_function,
+    load_memory_function,
 ])
 
 model = genai.GenerativeModel(
@@ -131,10 +159,31 @@ def agent_execute(user_prompt):
     6.  When creating tasks, always include the consequences of not completing the task in the description.
         This is very important. The consequences should be the worst-case scenario.
     7.  When adding to a data store, you should first read the data store to see what is already there, and then append the new data.
+    8.  You can use 'delete_data_entry(store_name, entry_id)' to remove an entry from a list-based data store.
+    9.  You can use 'load_memory(store_name, entry_id=None)' to retrieve data from any store, either the entire store or a specific entry by ID.
     """
 
     chat = model.start_chat()
-    response = chat.send_message(system_prompt + "\nUser instruction: " + user_prompt)
+
+    # Load current day's chatlog
+    current_chatlog = read_data('chatlog')
+    if "error" in current_chatlog:
+        current_chatlog = [] # Initialize as empty if there's an error or file not found
+
+    # Format chatlog for Gemini API
+    history_for_gemini = []
+    for entry in current_chatlog:
+        history_for_gemini.append({"role": entry["role"], "parts": [{"text": entry["content"]}]})
+
+    # Append user's current instruction to history
+    history_for_gemini.append({"role": "user", "parts": [{"text": system_prompt + "\nUser instruction: " + user_prompt}]})
+
+    response = chat.send_message(history_for_gemini)
+
+    # Append user's prompt to chatlog
+    append_data('chatlog', {"role": "user", "content": user_prompt, "timestamp": get_timestamp()})
+
+    final_response_text = ""
 
     while True:
         function_call = None
@@ -143,6 +192,8 @@ def agent_execute(user_prompt):
                 if part.function_call:
                     function_call = part.function_call
                     break
+                elif part.text:
+                    final_response_text += part.text # Accumulate text parts
 
         if not function_call:
             break # No function call, break the loop
@@ -159,6 +210,10 @@ def agent_execute(user_prompt):
             result = append_data(function_args["store_name"], json.loads(function_args["new_entry"]))
         elif function_name == "get_timestamp":
             result = get_timestamp()
+        elif function_name == "delete_data_entry":
+            result = delete_data_entry(function_args["store_name"], function_args["entry_id"])
+        elif function_name == "load_memory":
+            result = load_memory(function_args["store_name"], function_args.get("entry_id"))
         else:
             result = {"error": f"Unknown function: {function_name}"}
 
@@ -166,8 +221,11 @@ def agent_execute(user_prompt):
         response = chat.send_message(
             [{"function_response": {"name": function_name, "response": {"result": result}}}]
         )
+    
+    # Append LLM's final response to chatlog
+    append_data('chatlog', {"role": "agent", "content": final_response_text, "timestamp": get_timestamp()})
 
-    return response.text
+    return final_response_text
 
 @app.route('/search', methods=['POST'])
 def search():

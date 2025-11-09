@@ -3,7 +3,6 @@ Architecture Design(It's very messy)
 ---
 
 features:
-inf context where llm dynamically loads memory and compartmentalizes it. it’ll do its best to serve the user and live only for their benefit or it’ll be taken down.
 cli tool to interact with it (instruct is basically the interaction command or send prompt command).
 windows reminders of things to do.
 
