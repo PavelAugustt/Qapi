@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "role": "user",
+        "content": "What is the capital of France?",
+        "timestamp": "2025-11-08T19:17:32.190955",
+        "id": "4fbb33ea-4f3c-464d-9f5c-f6fcfe192a89",
+        "entry_date": "2025-11-08T19:17:32.191206"
+    },
+    {
+        "role": "agent",
+        "content": "The capital of France is Paris.",
+        "timestamp": "2025-11-08T19:17:32.192269",
+        "id": "d0ad5e86-2b9e-4db6-9d7f-34d196d2f471",
+        "entry_date": "2025-11-08T19:17:32.192414"
+    }
+]

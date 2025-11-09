@@ -16,8 +16,9 @@ def _create_truncated_desc(description, max_length=100):
     return description
 
 def get_timestamp():
-    """Returns the current timestamp in ISO format."""
-    return datetime.now().isoformat()
+    """Returns the current timestamp in ISO format (UTC)."""
+    from datetime import timezone
+    return datetime.now(timezone.utc).isoformat()
 
 def read_data(store_name):
     """Reads data from a specified JSON file in the data directory."""

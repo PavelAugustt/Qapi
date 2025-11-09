@@ -111,10 +111,36 @@ tools = types.Tool(function_declarations=[
     load_memory_function,
 ])
 
+system_prompt = """
+    You are Qapi, a helpful AI assistant. Your goal is to help the user manage their tasks and goals.
+    You have access to a set of tools (functions) to interact with the user's data stores.
+    The available data stores and their schemas are documented in the ARCH_DESIGN.MD file.
+    
+    CRITICAL: The current UTC time can be retrieved using the get_timestamp() function. 
+    When the user asks for tasks "in X seconds/minutes/hours from now", you MUST:
+    1. Call get_timestamp() to get the current UTC time
+    2. Calculate the future time by adding the requested duration to the UTC timestamp
+    3. Use that calculated UTC time as the due_date with 'Z' suffix
+    
+    When a user gives you an instruction, you should:
+    1.  Refer to the ARCH_DESIGN.MD file to understand the data structures.
+    2.  Decide which tools to use to fulfill the request.
+    3.  Call the tools with the correct parameters, ensuring the data you provide matches the schema.
+    4.  Use the tool outputs to formulate your final response.
+    5.  If you need to add a task with a reminder, add it to the 'timeheap' data store.
+        A timeheap entry should be a JSON object with 'id', 'description', and 'due_date' (in ISO format with 'Z' suffix for UTC).
+    6.  When creating tasks, always include the consequences of not completing the task in the description.
+        This is very important. The consequences should be the worst-case scenario.
+    7.  When adding to a data store, you should first read the data store to see what is already there, and then append the new data.
+    8.  You can use 'delete_data_entry(store_name, entry_id)' to remove an entry from a list-based data store.
+    9.  You can use 'load_memory(store_name, entry_id=None)' to retrieve data from any store, either the entire store or a specific entry by ID.
+    """
+
 model = genai.GenerativeModel(
     model_name='gemini-2.5-flash', # Corrected model name
     generation_config={"temperature": 0.7},
-    tools=tools
+    tools=tools,
+    system_instruction=system_prompt
 )
 
 @app.route('/healthcheck', methods=['GET'])
@@ -145,43 +171,9 @@ def agent_execute(user_prompt):
     Constructs a system prompt, interacts with the LLM using function calling,
     and executes the user's instruction.
     """
-    system_prompt = """
-    You are Qapi, a helpful AI assistant. Your goal is to help the user manage their tasks and goals.
-    You have access to a set of tools (functions) to interact with the user's data stores.
-    The available data stores and their schemas are documented in the ARCH_DESIGN.MD file.
-    When a user gives you an instruction, you should:
-    1.  Refer to the ARCH_DESIGN.MD file to understand the data structures.
-    2.  Decide which tools to use to fulfill the request.
-    3.  Call the tools with the correct parameters, ensuring the data you provide matches the schema.
-    4.  Use the tool outputs to formulate your final response.
-    5.  If you need to add a task with a reminder, add it to the 'timeheap' data store.
-        A timeheap entry should be a JSON object with 'id', 'description', and 'due_date' (in ISO format).
-    6.  When creating tasks, always include the consequences of not completing the task in the description.
-        This is very important. The consequences should be the worst-case scenario.
-    7.  When adding to a data store, you should first read the data store to see what is already there, and then append the new data.
-    8.  You can use 'delete_data_entry(store_name, entry_id)' to remove an entry from a list-based data store.
-    9.  You can use 'load_memory(store_name, entry_id=None)' to retrieve data from any store, either the entire store or a specific entry by ID.
-    """
-
     chat = model.start_chat()
 
-    # Load current day's chatlog
-    current_chatlog = read_data('chatlog')
-    if "error" in current_chatlog:
-        current_chatlog = [] # Initialize as empty if there's an error or file not found
-
-    # Format chatlog for Gemini API
-    history_for_gemini = []
-    for entry in current_chatlog:
-        history_for_gemini.append({"role": entry["role"], "parts": [{"text": entry["content"]}]})
-
-    # Append user's current instruction to history
-    history_for_gemini.append({"role": "user", "parts": [{"text": system_prompt + "\nUser instruction: " + user_prompt}]})
-
-    response = chat.send_message(history_for_gemini)
-
-    # Append user's prompt to chatlog
-    append_data('chatlog', {"role": "user", "content": user_prompt, "timestamp": get_timestamp()})
+    response = chat.send_message(user_prompt)
 
     final_response_text = ""
 
@@ -222,9 +214,6 @@ def agent_execute(user_prompt):
             [{"function_response": {"name": function_name, "response": {"result": result}}}]
         )
     
-    # Append LLM's final response to chatlog
-    append_data('chatlog', {"role": "agent", "content": final_response_text, "timestamp": get_timestamp()})
-
     return final_response_text
 
 @app.route('/search', methods=['POST'])
