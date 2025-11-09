@@ -164,10 +164,31 @@ def agent_execute(user_prompt):
 
         # Send the result back to the model
         response = chat.send_message(
-            [{"function_response": {"name": function_name, "response": result}}]
+            [{"function_response": {"name": function_name, "response": {"result": result}}}]
         )
 
     return response.text
+
+@app.route('/search', methods=['POST'])
+def search():
+    """
+    Instructs the LLM to search the data stores.
+    """
+    query = request.json.get('query')
+    if not query:
+        return jsonify({"error": "No query provided"}), 400
+
+    search_prompt = f"""
+    The user wants to search the data stores.
+    The query is: "{query}"
+    Please search the relevant data stores and return the results.
+    """
+    try:
+        response = agent_execute(search_prompt)
+        return jsonify({"response": response})
+    except Exception as e:
+        app.logger.exception("An error occurred during search.")
+        return jsonify({"error": "An internal error occurred."}), 500
 
 @app.route('/create_daily_timeheap', methods=['POST'])
 def create_daily_timeheap():

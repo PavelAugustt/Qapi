@@ -30,6 +30,17 @@ def instruct(prompt):
         click.echo(f"Error communicating with the LLM: {e}")
 
 @cli.command()
+@click.argument('query')
+def search(query):
+    """Searches the data stores using a query."""
+    try:
+        response = requests.post(f"{SERVER_URL}/search", json={"query": query})
+        response.raise_for_status()
+        click.echo(response.json().get('response'))
+    except requests.exceptions.RequestException as e:
+        click.echo(f"Error searching: {e}")
+
+@cli.command()
 def create_timeheap():
     """Triggers the creation of the daily timeheap."""
     try:
